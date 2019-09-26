@@ -1,6 +1,8 @@
 import java.util.*;
 import java.lang.*;
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class rename {
     public static void main(String args[]) {
@@ -90,23 +92,23 @@ public class rename {
                     }
                 } else if (args[i].equals("-file")) {
                     i++;
-                    if (i < args.length) {
+                    if (i < args.length && !args[i].startsWith("-")) {
                         // get the argument for prefix
-                        if (args[i].startsWith("-")) {
-                            System.out.println("Argument cannot start with a \"-\"");
-                            parsing_error = true;
-                        } else {
+                        while (i < args.length && !args[i].startsWith("-")) {
                             filenames.add(args[i]);
-                            filename_found = true;
+                            i++;
                         }
+                        i--;
+                        filename_found = true;
                     } else {
                         System.out.println("Insufficient arguments supplied to -file");
                         parsing_error = true;
+                        i--;
+                        continue;
                     }
                 } else {
                     System.out.println("Invalid option specified");
                     System.out.println(args[i]);
-
                 }
                 // values start with anything else
             } else {
@@ -159,6 +161,17 @@ public class rename {
                     j++;
                     StringBuilder temp = new StringBuilder();
                     while (j < args.length && !args[j].startsWith("-")) {
+                        if (args[j].contains("@date")) {
+                            LocalDateTime myDateObj = LocalDateTime.now();
+                            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+                            String formattedDate = myDateObj.format(myFormatObj);
+                            args[j] = args[j].replaceAll("@date", formattedDate);
+                        } else if (args[j].contains("@time")) {
+                            LocalDateTime myDateObj = LocalDateTime.now();
+                            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH-mm-ss");
+                            String formattedDate = myDateObj.format(myFormatObj);
+                            args[j] = args[j].replaceAll("@time", formattedDate);
+                        }
                         temp.append(args[j]);
                         j++;
                     }
@@ -168,13 +181,42 @@ public class rename {
                     j++;
                     StringBuilder temp = new StringBuilder();
                     while (j < args.length && !args[j].startsWith("-")) {
+                        if (args[j].contains("@date")) {
+                            LocalDateTime myDateObj = LocalDateTime.now();
+                            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+                            String formattedDate = myDateObj.format(myFormatObj);
+                            args[j] = args[j].replaceAll("@date", formattedDate);
+                        } else if (args[j].contains("@time")) {
+                            LocalDateTime myDateObj = LocalDateTime.now();
+                            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH-mm-ss");
+                            String formattedDate = myDateObj.format(myFormatObj);
+                            args[j] = args[j].replaceAll("@time", formattedDate);
+                        }
                         temp.append(args[j]);
                         j++;
                     }
                     j--; // reached either end of array or seen another option, so adjust here
                     updated_file_name = updated_file_name + temp;
                 } else if (args[j].equals("-replace")) {
-                    updated_file_name = updated_file_name.replaceAll(args[j + 1], args[j + 2]);
+                    if (!updated_file_name.contains(args[j + 1])) {
+                        // filename does not comtain substring --> rename operation will fail
+                        System.out.println("Failed to replace " + args[j + 1] + " with " + args[j + 2]
+                                + " for " + filenames.get(i));
+                        j += 2;
+                        continue;
+                    }
+                    if (args[j + 2].contains("@date")) {
+                        LocalDateTime myDateObj = LocalDateTime.now();
+                        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+                        String formattedDate = myDateObj.format(myFormatObj);
+                        args[j + 2] = args[j + 2].replaceAll("@date", formattedDate);
+                    } else if (args[j + 2].contains("@time")) {
+                        LocalDateTime myDateObj = LocalDateTime.now();
+                        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("HH-mm-ss");
+                        String formattedDate = myDateObj.format(myFormatObj);
+                        args[j + 2] = args[j + 2].replaceAll("@time", formattedDate);
+                    }
+                    updated_file_name = updated_file_name.replaceAll(args[j + 1], args[j + 2]); // check whether success
                     j += 2;
                 } else {
                     // ignore
