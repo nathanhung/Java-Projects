@@ -7,7 +7,6 @@ import java.time.format.DateTimeFormatter;
 public class rename {
     public static void main(String args[]) {
         // first check that the format of command line parameters are correct
-
         ArrayList<String> filenames = new ArrayList<String>();
         if (args.length == 0) {
             System.out.println("Program was not given at least one option with valid arguments and one filename");
@@ -26,13 +25,13 @@ public class rename {
         System.out.println("Usage: java rename [-option argument1 argument2 ...]\n");
         System.out.println("Options:");
         System.out.println("-help\t:: display this help");
-        System.out.println("-prefix [string]\t:: rename the file by prepending [string] to the filename");
-        System.out.println("-suffix [string]\t:: rename the file by appending [string] to the filename");
-        System.out.println("-replace [str1] [str2]\t:: rename all files with name [str1] with [str2]");
+        System.out.println("-prefix [string]\t:: rename [filename] by prepending [string] to the filename");
+        System.out.println("-suffix [string]\t:: rename [filename] by appending [string] to the filename");
+        System.out.println("-replace [str1] [str2]\t:: rename [filename] by replacing instances of [str1] with [str2]");
         System.out.println("-file [filename]\t:: denotes the [filename] to be modified");
     }
 
-    // parse args, if errors occur, then print error messages and exit program here too
+    // parse args, if errors occur, then print error messages and exit program after parsing all command line input
     static ArrayList<String> parse(String[] args) {
         ArrayList<String> filenames = new ArrayList<String>();
         String key = null;
@@ -79,9 +78,10 @@ public class rename {
                 } else if (args[i].equals("-replace")) {
                     if (i + 2 < args.length) {
                         // get the argument for prefix
-                        if ((args[i + 1].startsWith("-")) || (args[i + 1].startsWith("-"))) {
-                            System.out.println("Arguments cannot start with a \"-\"");
+                        if ((args[i + 1].startsWith("-")) || (args[i + 2].startsWith("-"))) {
+                            System.out.println("Insufficient arguments supplied to -replace");
                             parsing_error = true;
+                            continue;
                         } else {
                             i += 2;
                             valid_option_found = true;
@@ -89,6 +89,7 @@ public class rename {
                     } else {
                         System.out.println("Insufficient arguments supplied to -replace");
                         parsing_error = true;
+                        continue;
                     }
                 } else if (args[i].equals("-file")) {
                     i++;
@@ -107,8 +108,7 @@ public class rename {
                         continue;
                     }
                 } else {
-                    System.out.println("Invalid option specified");
-                    System.out.println(args[i]);
+                    System.out.println("Invalid option specified: " + args[i]);
                 }
                 // values start with anything else
             } else {
@@ -126,14 +126,11 @@ public class rename {
             System.exit(0);
         }
         if (valid_option_found == false) {
-            System.out.println("No valid option provided");
-            if (filename_found == false) {
-                System.out.println("No valid filename provided");
-            }
+            System.out.println("No valid option provided\n");
             printHelp();
             System.exit(1);
         } else if (filename_found == false) {
-            System.out.println("No valid filename provided");
+            System.out.println("No valid filename provided\n");
             printHelp();
             System.exit(1);
         }
@@ -144,19 +141,9 @@ public class rename {
     }
 
     static void rename_files(ArrayList<String> filenames, String[] args) {
-        //Set entrySet = options.entrySet();
-        //Iterator it = entrySet.iterator();
-
-
-        // sb.replace
-        // sb.insert(0, ___);
-        // sn.append(_____);
-        // later: just create an arraylist of all filenames
         for (int i = 0; i < filenames.size(); i++) {
             String updated_file_name = filenames.get(i);
             for (int j = 0; j < args.length; j++) {
-                //System.out.println(options.get("-file").get(i));
-
                 if (args[j].equals("-prefix")) {
                     j++;
                     StringBuilder temp = new StringBuilder();
@@ -216,29 +203,31 @@ public class rename {
                         String formattedDate = myDateObj.format(myFormatObj);
                         args[j + 2] = args[j + 2].replaceAll("@time", formattedDate);
                     }
-                    updated_file_name = updated_file_name.replaceAll(args[j + 1], args[j + 2]); // check whether success
+                    updated_file_name = updated_file_name.replaceAll(args[j + 1], args[j + 2]);
                     j += 2;
                 } else {
                     // ignore
                 }
             }
             // update file name here
-            System.out.println(updated_file_name);
+            //System.out.println(updated_file_name); // for testing purposes
             File f_old = new File(filenames.get(i));
             File f_new = new File(updated_file_name);
             if (!f_old.exists()) {
-                System.out.println("Filename does not exist");
+                System.out.println("Filename does not exist: " + filenames.get(i));
+                continue;
             }
             if (f_old.isDirectory()) {
-                System.out.println("Filename is a directory"); //????
+                System.out.println("Filename is a directory: " + filenames.get(i));
+                continue;
             }
             try {
                 boolean result = f_old.renameTo(f_new);
-                    if (result == true) {
-                        System.out.println("Filename " + filenames.get(i) + " renamed to " + updated_file_name);
-                    } else {
-                        System.out.println("Failed to rename " + filenames.get(i));
-                    }
+                if (result == true) {
+                    System.out.println("Filename " + filenames.get(i) + " renamed to " + updated_file_name);
+                } else {
+                    System.out.println("Failed to rename " + filenames.get(i));
+                }
             } catch (Exception ex) {
                 System.out.println(ex.toString());
             }
