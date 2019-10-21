@@ -37,8 +37,32 @@ public class ImageModel {
         JFrame newFrame = new JFrame();
 
         //newFrame.setLayout(new BoxLayout(newFrame, BoxLayout.Y_AXIS));
-        //ImageIcon image = new ImageIcon()
-        JLabel imageLabel = new JLabel(new ImageIcon(this.filePath.toString()));
+        ImageIcon image = new ImageIcon(this.filePath.toString());
+
+
+        int newHeight = image.getIconHeight();
+        int newWidth = image.getIconWidth();
+        if (newHeight > 600) {
+            newHeight = 600;
+        }
+        if (newWidth > 800) {
+            newWidth = 800;
+        }
+
+        Image scaled = image.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+
+        ImageIcon scaledImage = new ImageIcon(scaled);
+        JLabel imageLabel = new JLabel(scaledImage);
+/*
+        int originalWidth = originalImage.getIconWidth();
+        int originalHeight = originalImage.getIconHeight();
+        //System.out.println(originalWidth);
+        //System.out.println(originalHeight);
+
+        Image scaled = originalImage.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+
+
+ */
         JPanel imagePanel = new JPanel();
         imagePanel.setLayout(new BoxLayout(imagePanel, BoxLayout.Y_AXIS));
         imagePanel.add(imageLabel);
