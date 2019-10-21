@@ -35,6 +35,12 @@ public class Toolbar extends JPanel implements IView{
         });
 
         JButton clear_button = new JButton("Clear");
+        clear_button.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {        // use anonymous inner class instead of MyMouseAdapter class
+                model.handleClearClick();
+            }
+        });
+
         JLabel rating_widget = new JLabel("Rating Widget"); // todo
         this.add(load_button);
         this.add(clear_button);
