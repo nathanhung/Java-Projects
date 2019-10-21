@@ -78,7 +78,7 @@ class LayoutFrame {
         // set window behaviour and display it
         frame.setResizable(true);
         frame.setPreferredSize(new Dimension(800, 800));
-        frame.setMinimumSize(new Dimension(650, 650));
+        frame.setMinimumSize(new Dimension(600, 600));
         // TODO: set a minimum size
         frame.pack();
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -114,7 +114,7 @@ class LayoutFrame {
                     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                         String line;
                         while ((line = br.readLine()) != null) {
-                            System.out.println(line);
+                            //System.out.println(line);
                             File[] fileArr = new File[1];
                             File imageFile = new File(line);
                             fileArr[0] = imageFile;

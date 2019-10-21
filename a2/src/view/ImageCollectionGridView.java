@@ -23,7 +23,9 @@ class ImageCollectionGridView extends JPanel implements IView {
         this.repaint();
         // loop through images in model and display them
         for (int i = 0; i < this.model.imageModels.size(); i++) {
-            this.add(this.model.imageModels.get(i).imageGridView);
+            if (this.model.imageModels.get(i).userRating >= this.model.filterRating) {
+                this.add(this.model.imageModels.get(i).imageGridView);
+            }
         }
     }
 }
