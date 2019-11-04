@@ -83,7 +83,6 @@ public class Main extends Application {
 
 
             // SCENE 2 (the gameplay screen)
-            //BorderPane rootPane2 = new BorderPane();
             VBox root = new VBox();
             Canvas canvas = new Canvas(width * cellSize, height * cellSize);
             GraphicsContext gc = canvas.getGraphicsContext2D();
