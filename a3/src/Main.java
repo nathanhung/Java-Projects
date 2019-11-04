@@ -29,13 +29,9 @@ public class Main extends Application {
     static List<Cell> snake = new ArrayList<>(); // array of points snake is on
     static List<Cell> apples = new ArrayList<>(); // array of points apples are on
     static Dir direction = Dir.right;
-    static boolean gameOver = false; // TODO: rename
+    static boolean gameOver = false;
     static Timeline timeline;
 
-
-    public enum Dir {
-        left, right, up, down
-    }
 
     public static class Cell {
         double x;
@@ -46,7 +42,9 @@ public class Main extends Application {
         }
     }
 
-
+    public enum Dir {
+        left, right, up, down
+    }
 
     public static void main(String[] args) {
 
@@ -119,6 +117,64 @@ public class Main extends Application {
                 if (key.getCode() == KeyCode.SPACE) {
                     //System.out.println("You pressed SPACE");
                     level = 1;
+                    initLevel(level);
+                    direction = Dir.right;
+                    gameOver = false;
+                    timeline.play();
+                    timelineClock.play();
+                    // clear snake if any still exists
+                    snake.clear();
+                    // initial snake (length = 1)
+                    snake.add(new Cell(width / 2, height / 2));
+                    stage.setScene(scene2);
+                }
+                if (key.getCode() == KeyCode.DIGIT1) {
+                    // clear any previous game
+                    timeline.stop();
+                    timelineClock.stop();
+                    currScore = 0;
+                    currentTime = 0;
+                    gameOver = false;
+                    // start new game from level 1
+                    level = 1;
+                    initLevel(level);
+                    direction = Dir.right;
+                    timeline.play();
+                    timelineClock.play();
+                    // clear snake if any still exists
+                    snake.clear();
+                    // initial snake (length = 1)
+                    snake.add(new Cell(width / 2, height / 2));
+                    stage.setScene(scene2);
+                }
+                if (key.getCode() == KeyCode.DIGIT2) {
+                    // clear any previous game
+                    timeline.stop();
+                    timelineClock.stop();
+                    currScore = 0;
+                    currentTime = 0;
+                    gameOver = false;
+                    // start new game from level 1
+                    level = 2;
+                    initLevel(level);
+                    direction = Dir.right;
+                    timeline.play();
+                    timelineClock.play();
+                    // clear snake if any still exists
+                    snake.clear();
+                    // initial snake (length = 1)
+                    snake.add(new Cell(width / 2, height / 2));
+                    stage.setScene(scene2);
+                }
+                if (key.getCode() == KeyCode.DIGIT3) {
+                    // clear any previous game
+                    timeline.stop();
+                    timelineClock.stop();
+                    currScore = 0;
+                    currentTime = 0;
+                    gameOver = false;
+                    // start new game from level 1
+                    level = 3;
                     initLevel(level);
                     direction = Dir.right;
                     timeline.play();
@@ -216,6 +272,13 @@ public class Main extends Application {
                     gameOver = false;
                     stage.setScene(scene1);
                 }
+                if (key.getCode() == KeyCode.Q) {
+                    gameOver = true;
+                    //timeline.stop();
+                    //timelineClock.stop();
+                    //currScore = 0;
+                    //currentTime = 0;
+                }
             });
 
 
@@ -236,11 +299,11 @@ public class Main extends Application {
 
             gc.setFill(Color.WHITE);
             gc.setFont(new Font("", 50));
-            gc.fillText("Your Score:" + currScore, 475, 500);
+            gc.fillText("Your Score: " + currScore, 475, 500);
 
             gc.setFill(Color.WHITE);
             gc.setFont(new Font("", 50));
-            gc.fillText("High Score:" + highScore, 475, 575);
+            gc.fillText("High Score: " + highScore, 475, 575);
 
             return;
         }
