@@ -4,50 +4,5 @@
     android:layout_height="match_parent"
     android:layout_weight="1"
     android:orientation="vertical">
-<!--
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <RadioButton
-            android:id="@+id/selectionBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="onToolbarClicked"
-            android:text="Selection2" />
-
-        <RadioButton
-            android:id="@+id/eraseBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Erase2" />
-
-        <RadioButton
-            android:id="@+id/lineBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Line" />
-
-        <RadioButton
-            android:id="@+id/circleBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Circle" />
-
-        <RadioButton
-            android:id="@+id/rectanglebtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Rectangle" />
-
-    </RadioGroup>
-    -->
 
 </LinearLayout>

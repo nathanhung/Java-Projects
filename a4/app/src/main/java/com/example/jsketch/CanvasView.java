@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
@@ -30,10 +31,11 @@ public class CanvasView extends View implements Observer {
     private float previousX;
     private float previousY;
 
-    /*
-    Rectangle rectangle;
 
-     */
+    Rectangle currRectangle;
+    Line currLine;
+    Circle currCircle;
+
 //    Circle circle;
 
 
@@ -119,16 +121,38 @@ public class CanvasView extends View implements Observer {
             switch (action) {
                 case (MotionEvent.ACTION_DOWN):
                     Log.d("DEBUG", "Action was DOWN");
-                    Line line = new Line();
-                    line.translate(event.getX(), event.getY());
+                    Line line;
+                    if (this.model.blueBtnSelected) {
+                        line = new Line(0, 0, 50, 50,"blue");
+                    } else if (this.model.redBtnSelected) {
+                        line = new Line(0, 0, 50, 50,"red");
+                    } else if (this.model.yellowBtnSelected) {
+                        line = new Line(0, 0, 50, 50,"yellow");
+                    } else if (this.model.greenBtnSelected) {
+                        line = new Line(0, 0, 50, 50,"green");
+                    } else {
+                        line = new Line(0, 0, 50, 50,"white");
+                    }
+                    //line.translate(event.getX(), event.getY());
                     lines.add(line);
-                    invalidate();
+                    currLine = line;
+                    previousX = x;
+                    previousY = y;
+                    //invalidate();
                     return true;
                 case (MotionEvent.ACTION_MOVE):
                     Log.d("DEBUG", "Action was MOVE");
-
+//                    float dx = x / previousX;
+//                    float dy = y / previousY;
+//                    previousX = x;
+//                    previousY = y;
+//                    currLine.scale(dx,dy);
+//                    invalidate();
                     return true;
                 case (MotionEvent.ACTION_UP):
+                    currLine.translate(x,y);
+                    invalidate();
+                    currLine = null;
                     Log.d("DEBUG", "Action was UP");
                     return true;
                 case (MotionEvent.ACTION_CANCEL):
@@ -145,17 +169,39 @@ public class CanvasView extends View implements Observer {
             switch (action) {
                 case (MotionEvent.ACTION_DOWN):
                     Log.d("DEBUG", "Action was DOWN");
-                    Circle circle = new Circle(50);
-                    circle.translate(event.getX(), event.getY());
+                    Circle circle;
+                    if (this.model.blueBtnSelected) {
+                        circle = new Circle(50, "blue");
+                    } else if (this.model.redBtnSelected) {
+                        circle = new Circle(50,"red");
+                    } else if (this.model.yellowBtnSelected) {
+                        circle = new Circle(50, "yellow");
+                    } else if (this.model.greenBtnSelected) {
+                        circle = new Circle(50, "green");
+                    } else {
+                        circle = new Circle(50, "white");
+                    }
+                    //circle.translate(event.getX(), event.getY());
                     circles.add(circle);
-                    invalidate();
+                    currCircle = circle;
+                    previousX = x;
+                    previousY = y;
+                    //invalidate();
                     return true;
                 case (MotionEvent.ACTION_MOVE):
                     Log.d("DEBUG", "Action was MOVE");
-
+                    float dx = x / previousX;
+                    float dy = y / previousY;
+                    previousX = x;
+                    previousY = y;
+                    currCircle.scale(dx,dy);
+                    invalidate();
                     return true;
                 case (MotionEvent.ACTION_UP):
                     Log.d("DEBUG", "Action was UP");
+                    currCircle.translate(x,y);
+                    invalidate();
+                    currCircle = null;
                     return true;
                 case (MotionEvent.ACTION_CANCEL):
                     Log.d("DEBUG", "Action was CANCEL");
@@ -171,16 +217,41 @@ public class CanvasView extends View implements Observer {
             switch (action) {
                 case (MotionEvent.ACTION_DOWN):
                     Log.d("DEBUG", "Action was DOWN");
-                    Rectangle rectangle = new Rectangle(50, 50);
-                    rectangle.translate(event.getX(), event.getY());
+                    Rectangle rectangle;
+                    if (this.model.blueBtnSelected) {
+                        rectangle = new Rectangle(50, 50, "blue");
+                    } else if (this.model.redBtnSelected) {
+                        rectangle = new Rectangle(50, 50, "red");
+                    } else if (this.model.yellowBtnSelected) {
+                        rectangle = new Rectangle(50, 50, "yellow");
+                    } else if (this.model.greenBtnSelected) {
+                        rectangle = new Rectangle(50, 50, "green");
+                    } else {
+                        rectangle = new Rectangle(50, 50, "white");
+                    }
+                    //rectangle.translate(event.getX(), event.getY());
                     rectangles.add(rectangle);
-                    invalidate();
+                    currRectangle = rectangle;
+                    previousX = x;
+                    previousY = y;
+                    //invalidate();
                     return true;
                 case (MotionEvent.ACTION_MOVE):
                     Log.d("DEBUG", "Action was MOVE");
+                    float dx = x / previousX;
+                    float dy = y / previousY;
+                    previousX = x;
+                    previousY = y;
+                    currRectangle.scale(dx,dy);
+                    invalidate();
                     //rectangles.get(rectangles.size() - 1)
                     return true;
                 case (MotionEvent.ACTION_UP):
+//                    float dx = x - previousX;
+//                    float dy = y - previousY;
+                    currRectangle.translate(x,y);
+                    currRectangle = null;
+                    invalidate();
                     Log.d("DEBUG", "Action was UP");
                     return true;
                 case (MotionEvent.ACTION_CANCEL):
@@ -195,15 +266,6 @@ public class CanvasView extends View implements Observer {
             }
         }
         return super.onTouchEvent(event);
-/*
-        Rectangle rectangle = new Rectangle(200, 300);
-        rectangle.scale(4, 3);
-        rectangle.translate(250,250);
-        rectangles.add(rectangle);
-        invalidate();
-        return super.onTouchEvent(event);
-
- */
     }
 
     @Override
@@ -219,12 +281,6 @@ public class CanvasView extends View implements Observer {
         for (int i = 0; i < lines.size(); i++) {
             lines.get(i).draw(canvas, lines.get(i).brushColour);
         }
-        /*
-        // tell shapes to draw themselves
-        rectangle.draw(canvas, red_brush);
-
-         */
-//        circle.draw(canvas, blue_brush);
 
 
     }

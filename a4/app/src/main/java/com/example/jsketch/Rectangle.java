@@ -15,13 +15,24 @@ public class Rectangle {
     // The matrix will be used to determine location (defaults to identity matrix)
     // By default, is drawn with the upper-left corner at the origin
     // Assumes: width and height are positive numbers
-    Rectangle(float _width, float _height) {
+    Rectangle(float _width, float _height, String color) {
         x = 0;
         y = 0;
         width = _width;
         height = _height;
         brushColour = new Paint(Paint.ANTI_ALIAS_FLAG);
-        brushColour.setColor(Color.BLUE);
+        if (color == "blue") {
+            brushColour.setColor(Color.BLUE);
+        } else if (color == "red") {
+            brushColour.setColor(Color.RED);
+        } else if (color == "yellow") {
+            brushColour.setColor(Color.YELLOW);
+        } else if (color == "green") {
+            brushColour.setColor(Color.GREEN);
+        } else {
+            brushColour.setColor(Color.WHITE);
+        }
+
     }
 
     // Translate by dx, dy

@@ -15,14 +15,23 @@ public class Line {
     // The matrix will be used to determine location (defaults to identity matrix)
     // By default, is drawn centred at the origin
     // Assumes: positive radius
-    Line() {
-        xStart = 0;
-        yStart = 0;
-        xStop = 50;
-        yStop = 50;
-
+    Line(float xStart, float yStart, float xStop, float yStop, String color) {
+        xStart = xStart;
+        yStart = yStart;
+        xStop = xStop;
+        yStop = yStop;
         brushColour = new Paint(Paint.ANTI_ALIAS_FLAG);
-        brushColour.setColor(Color.BLUE);
+        if (color == "blue") {
+            brushColour.setColor(Color.BLUE);
+        } else if (color == "red") {
+            brushColour.setColor(Color.RED);
+        } else if (color == "yellow") {
+            brushColour.setColor(Color.YELLOW);
+        } else if (color == "green") {
+            brushColour.setColor(Color.GREEN);
+        } else {
+            brushColour.setColor(Color.WHITE);
+        }
     }
 
     // Translate by dx, dy
