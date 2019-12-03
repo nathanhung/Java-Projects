@@ -2,13 +2,9 @@ package cs349.uwaterloo.ca.paperdollscenegraph;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
-import com.snatik.polygon.Point;
-import com.snatik.polygon.Polygon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,31 +18,29 @@ public class DrawingView extends View {
 
     // keep track of currently selected body parts:
     BodyPart currSelectedPart = null;
-    BodyPart currSelectedPart2 = null;
 
     public DrawingView(Context context) {
         super(context);
 
         // init each body part torso: 1100, 300 (to do: starting pivot point)
         BodyPart torso = new BodyPart("torso", 1100, 300,0,0);
-        BodyPart head = new BodyPart("head", 1175,150, 600, 350);
+        BodyPart head = new BodyPart("head", 1175,150, 1250, 300);
 
         // arms and hands
-        BodyPart leftUpperArm = new BodyPart("leftUpperArm", 900, 300, 525, 550);
-        BodyPart rightUpperArm = new BodyPart("rightUpperArm", 1400, 300, 600, 550);
-
-        BodyPart leftLowerArm = new BodyPart("leftLowerArm", 900, 350, 725, 400);
-        BodyPart rightLowerArm = new BodyPart("rightLowerArm", 1550, 350, 400, 400);
-        BodyPart leftHand = new BodyPart("leftHand", 890, 550, 225, 450);
-        BodyPart rightHand = new BodyPart("rightHand", 1540, 550, 900, 450);
+        BodyPart leftUpperArm = new BodyPart("leftUpperArm", 900, 300, 1100, 325);
+        BodyPart rightUpperArm = new BodyPart("rightUpperArm", 1400, 300, 1400, 325);
+        BodyPart leftLowerArm = new BodyPart("leftLowerArm", 900, 350, 925, 350);
+        BodyPart rightLowerArm = new BodyPart("rightLowerArm", 1550, 350, 1575, 350);
+        BodyPart leftHand = new BodyPart("leftHand", 890, 550, 925, 550);
+        BodyPart rightHand = new BodyPart("rightHand", 1540, 550, 1575, 550);
 
         // legs + feet
-        BodyPart leftUpperLeg = new BodyPart("leftUpperLeg", 1145, 725, 525, 825);
-        BodyPart rightUpperLeg = new BodyPart("rightUpperLeg", 1280, 725, 625, 825);
-        BodyPart leftLowerLeg = new BodyPart("leftLowerLeg", 1155, 975, 525, 950);
-        BodyPart rightLowerLeg = new BodyPart("rightLowerLeg", 1290, 975, 625, 950);
-        BodyPart leftFoot = new BodyPart("leftFoot",1105, 1125, 525, 1050);
-        BodyPart rightFoot = new BodyPart("rightFoot", 1290, 1125, 625, 1050);
+        BodyPart leftUpperLeg = new BodyPart("leftUpperLeg", 1145, 725, 1180, 725);
+        BodyPart rightUpperLeg = new BodyPart("rightUpperLeg", 1280, 725, 1315, 725);
+        BodyPart leftLowerLeg = new BodyPart("leftLowerLeg", 1155, 975, 1180, 975);
+        BodyPart rightLowerLeg = new BodyPart("rightLowerLeg", 1290, 975, 1315, 975);
+        BodyPart leftFoot = new BodyPart("leftFoot",1105, 1125, 1180, 1125);
+        BodyPart rightFoot = new BodyPart("rightFoot", 1290, 1125, 1315, 1125);
 
         // add body parts
         bodyParts.add(torso);
@@ -119,26 +113,22 @@ public class DrawingView extends View {
                         break;
                     }
                 }
-
-                // if no bodyPart clicked, then return this function
-
-
                 previousX = x;
                 previousY = y;
                 break;
-
             case (MotionEvent.ACTION_MOVE):
                 if (currSelectedPart == null) {
                     return true;
                 } else if (currSelectedPart.bodyPartString.equals("torso")) {
                     currSelectedPart.translate(previousX, previousY, x, y);
+                } else {
+                    // non-torso body part was selected and moved (rotate)
+                    currSelectedPart.rotate(previousX, previousY, x, y);
                 }
-
                 previousX = x;
                 previousY = y;
                 invalidate();
                 break;
-
             case (MotionEvent.ACTION_UP):
                 currSelectedPart = null;
                 break;
