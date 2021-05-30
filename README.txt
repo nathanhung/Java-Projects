@@ -1,1 +1,7 @@
-Please do not change the directory structure.
+Projects built using Java.
+
+A2: Photo Album
+
+A3: Snake Game
+
+A4: 
