@@ -38,8 +38,6 @@ public class ImageModel {
 
         //newFrame.setLayout(new BoxLayout(newFrame, BoxLayout.Y_AXIS));
         ImageIcon image = new ImageIcon(this.filePath.toString());
-
-
         int newHeight = image.getIconHeight();
         int newWidth = image.getIconWidth();
         if (newHeight > 600) {
@@ -53,16 +51,7 @@ public class ImageModel {
 
         ImageIcon scaledImage = new ImageIcon(scaled);
         JLabel imageLabel = new JLabel(scaledImage);
-/*
-        int originalWidth = originalImage.getIconWidth();
-        int originalHeight = originalImage.getIconHeight();
-        //System.out.println(originalWidth);
-        //System.out.println(originalHeight);
 
-        Image scaled = originalImage.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-
-
- */
         JPanel imagePanel = new JPanel();
         imagePanel.setLayout(new BoxLayout(imagePanel, BoxLayout.Y_AXIS));
         imagePanel.add(imageLabel);
