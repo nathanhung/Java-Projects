@@ -7,4 +7,6 @@ WrapLayout.java code was from the following sources:
 https://piazza.com/class/jzebaf52qa36ru?cid=168
 https://stackoverflow.com/questions/3679886/how-can-i-let-jtoolbars-wrap-to-the-next-line-flowlayout-without-them-being-hi
 
-
+Steps:
+"make"
+"make run"
