@@ -11,3 +11,7 @@ Android SDK 29
 Approved 3rd party library from https://github.com/sromku/polygon-contains-point was used.
 
 No Enhancements Implemented.
+
+Steps to run:
+1. Rebuild
+2. Run

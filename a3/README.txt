@@ -15,5 +15,6 @@ pressing "q".
 Enhancements:
 No enhancements were implemented.
 
-
-
+Steps:
+"make"
+"make run"
